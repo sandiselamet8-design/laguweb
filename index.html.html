@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UNTUK KEKASIHKU 💖</title>
+<style>
+/* Background gradasi lembut */
+@keyframes bgGradient {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+}
+
+/* Hati naik perlahan */
+@keyframes heartRise {
+    0% {transform: translateY(0px) scale(0.5); opacity:0;}
+    50% {opacity:1; transform: translateY(-50px) scale(1);}
+    100% {transform: translateY(-200px) scale(0.8); opacity:0;}
+}
+
+/* Kata highlight lembut */
+@keyframes pulseSoft {
+    0% {transform: scale(1); color:#ffd1dc;}
+    50% {transform: scale(1.1); color:#ff99cc;}
+    100% {transform: scale(1); color:#ffd1dc;}
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+    color: white;
+    background: linear-gradient(-45deg, #ffccd9, #ffb6c1, #ff99cc, #ff80b3);
+    background-size: 400% 400%;
+    animation: bgGradient 25s ease infinite;
+}
+
+header {
+    text-align: center;
+    margin-top: 20px;
+}
+
+header h1 {
+    font-size: 3em;
+    margin: 0;
+    text-shadow: 1px 1px 8px #ff99cc;
+}
+
+header p {
+    font-size: 1.2em;
+    margin: 5px 0 20px;
+    text-shadow: 1px 1px 5px #ff99cc;
+}
+
+button {
+    padding: 12px 50px;
+    font-size: 22px;
+    background-color: #ff80b3;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 0 10px #ffb6c1, 0 0 20px #ff99cc;
+    transition: all 0.4s ease;
+    margin-bottom: 20px;
+}
+
+button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px #ffb6c1, 0 0 30px #ff99cc;
+}
+
+.heart {
+    position: absolute;
+    color: #ff6699;
+    font-size: 20px;
+    pointer-events: none;
+    animation: heartRise 3s forwards;
+}
+
+.lyrics-container {
+    width: 80%;
+    max-width: 700px;
+    background: rgba(0,0,0,0.35);
+    backdrop-filter: blur(5px);
+    border-radius: 20px;
+    padding: 20px;
+    overflow-y: auto;
+    font-size: 1.3em;
+    line-height: 1.8em;
+    text-align: center;
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    margin-bottom: 30px;
+    color: #fff;
+    scroll-behavior: smooth;
+}
+
+.lyrics-container span.highlight {
+    animation: pulseSoft 0.7s infinite;
+}
+</style>
+</head>
+<body>
+
+<header>
+    <h1>HEII CANTIK 💖</h1>
+      <p>Lagu ini special buat kamu</p>
+    <p>"Rasakan setiap kata, setiap nada, hatiku untukmu..."</p>
+</header>
+
+<button id="toggleSong">▶️ Putar / Pause Lagu</button>
+<audio id="bucinSong" src="Take That - Patience.mp3"></audio>
+
+<div class="lyrics-container" id="lyrics">
+    <span data-time="0">Shed</span> <span data-time="0.5">a</span> <span data-time="1">tear</span> <span data-time="1.5">'cause</span> <span data-time="2">I'm</span> <span data-time="2.5">missing</span> <span data-time="3">you</span><br>
+    <span data-time="4">I'm</span> <span data-time="4.5">still</span> <span data-time="5">empty</span> <span data-time="5.5">without</span> <span data-time="6">you</span><br>
+    <span data-time="7">Said</span> <span data-time="7.5">I</span> <span data-time="8">loved</span> <span data-time="8.5">you</span> <span data-time="9">years</span> <span data-time="9.5">ago</span><br>
+</div>
+
+<script>
+const button = document.getElementById("toggleSong");
+const song = document.getElementById("bucinSong");
+const lyricsContainer = document.getElementById("lyrics");
+const words = lyricsContainer.querySelectorAll('span[data-time]');
+
+// Tombol play/pause dengan animasi lembut
+button.addEventListener("click", () => {
+    if (song.paused) {
+        song.play().catch(e => alert("Terjadi kesalahan: " + e));
+        button.textContent = "⏸️ Pause Lagu";
+        createRomanticHearts(); // animasi lembut saat play
+    } else {
+        song.pause();
+        button.textContent = "▶️ Putar Lagu";
+    }
+});
+
+// Highlight kata sesuai waktu dan scroll otomatis
+song.addEventListener("timeupdate", () => {
+    const currentTime = song.currentTime;
+    words.forEach(word => {
+        const time = parseFloat(word.getAttribute('data-time'));
+        if(currentTime >= time){
+            word.classList.add('highlight');
+            word.scrollIntoView({behavior:"smooth", block:"center"});
+        } else {
+            word.classList.remove('highlight');
+        }
+    });
+});
+
+// Fungsi buat hati lembut
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.textContent = "💖";
+    heart.style.left = Math.random() * window.innerWidth + "px";
+    heart.style.fontSize = (15 + Math.random() * 20) + "px";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 3000);
+}
+
+// Hati muncul perlahan saat tombol play diklik
+function createRomanticHearts() {
+    const interval = setInterval(() => {
+        if(song.paused) { clearInterval(interval); return; }
+        createHeart();
+    }, 700);
+}
+</script>
+</body>
+</html>
